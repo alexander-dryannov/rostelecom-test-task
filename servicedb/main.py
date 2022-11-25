@@ -1,8 +1,8 @@
 import json
 import asyncio
-from aio_pika import connect
 import uvicorn
 from model import Citizen
+from aio_pika import connect
 from fastapi import FastAPI
 from db import database, metadata, engine
 from aio_pika.abc import AbstractIncomingMessage
