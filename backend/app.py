@@ -24,7 +24,6 @@ class FormProcessing(tornado.web.RequestHandler):
             routing_key='fastapi',
             body=self.request.body)
         con_pika.close()
-        print('[AMQP] Sent message')
 
 
 def make_app():
