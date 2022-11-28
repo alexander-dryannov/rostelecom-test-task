@@ -1,10 +1,10 @@
 import ormar
-import databases
+from databases import Database
 import sqlalchemy
 import core.settings as settings
 
 metadata = sqlalchemy.MetaData()
-database = databases.Database(settings.DATABASE)
+database = Database(settings.DATABASE)
 engine = sqlalchemy.create_engine(settings.DATABASE)
 
 

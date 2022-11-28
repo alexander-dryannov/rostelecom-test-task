@@ -11,4 +11,4 @@ class Citizen(ormar.Model):
     last_name: str = ormar.String(max_length=100)
     middle_name: str = ormar.String(max_length=100)
     telephone: int = ormar.Integer(unique=True)
-    appeal: str = ormar.String(max_length=3000)
+    appeal: str = ormar.Text()

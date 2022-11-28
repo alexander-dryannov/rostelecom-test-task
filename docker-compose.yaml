@@ -22,7 +22,7 @@ services:
     volumes:
       - ./servicedb:/servicedb
     environment:
-      - DATABASE_URL=postgresql+asyncpg://rtelecom_user:rtelecom_password@db:5432/citizen
+      - DATABASE_URL=postgresql://rtelecom_user:rtelecom_password@db:5432/citizen
     depends_on:
       - db
       - rabbitmq
@@ -44,7 +44,7 @@ services:
     image: postgres:latest
     container_name: db
     volumes:
-      - db/postgresql:/var/lib/postgresql/data
+      - db:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER=rtelecom_user
       - POSTGRES_PASSWORD=rtelecom_password

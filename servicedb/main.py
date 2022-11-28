@@ -10,7 +10,6 @@ from aio_pika.abc import AbstractIncomingMessage
 app = FastAPI()
 
 metadata.create_all(engine)
-app.state.database = database
 
 
 async def on_message(message: AbstractIncomingMessage) -> None:
@@ -26,23 +25,21 @@ async def on_message(message: AbstractIncomingMessage) -> None:
 
 @app.on_event("startup")
 async def startup() -> None:
-    database_ = app.state.database
-    # conn_pika = await connect('amqp://guest:guest@localhost/')
-    # async with conn_pika:
-    #     channel = await conn_pika.channel()
-    #     queue = await channel.declare_queue('fastapi')
-    #     await queue.consume(on_message, no_ack=True)
-    #     await asyncio.Future()
+    conn_pika = await connect('amqp://guest:guest@localhost/')
+    async with conn_pika:
+        channel = await conn_pika.channel()
+        queue = await channel.declare_queue('fastapi')
+        await queue.consume(on_message, no_ack=True)
+        await asyncio.Future()
 
-    if not database_.is_connected:
-        await database_.connect()
+    if not database.is_connected:
+        await database.connect()
 
 
 @app.on_event("shutdown")
 async def shutdown() -> None:
-    database_ = app.state.database
-    if database_.is_connected:
-        await database_.disconnect()
+    if database.is_connected:
+        await database.disconnect()
 
 
 if __name__ == '__main__':
