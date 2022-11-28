@@ -27,12 +27,12 @@ async def on_message(message: AbstractIncomingMessage) -> None:
 @app.on_event("startup")
 async def startup() -> None:
     database_ = app.state.database
-    conn_pika = await connect('amqp://guest:guest@localhost/')
-    async with conn_pika:
-        channel = await conn_pika.channel()
-        queue = await channel.declare_queue('fastapi')
-        await queue.consume(on_message, no_ack=True)
-        await asyncio.Future()
+    # conn_pika = await connect('amqp://guest:guest@localhost/')
+    # async with conn_pika:
+    #     channel = await conn_pika.channel()
+    #     queue = await channel.declare_queue('fastapi')
+    #     await queue.consume(on_message, no_ack=True)
+    #     await asyncio.Future()
 
     if not database_.is_connected:
         await database_.connect()
@@ -46,4 +46,4 @@ async def shutdown() -> None:
 
 
 if __name__ == '__main__':
-    uvicorn.run('main:app', host='0.0.0.0', port=8000, reload=True, log_level='info')
+    uvicorn.run('main:app', host='0.0.0.0', port=8000, reload=True, log_level='info', proxy_headers=True)

@@ -3,7 +3,6 @@ import databases
 import sqlalchemy
 import core.settings as settings
 
-
 metadata = sqlalchemy.MetaData()
 database = databases.Database(settings.DATABASE)
 engine = sqlalchemy.create_engine(settings.DATABASE)
