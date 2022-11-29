@@ -20,7 +20,6 @@ function MainForm() {
     const data = JSON.stringify(values)
     axios.defaults.headers = {'Content-Type': 'application/json'}
     const response = await axios.post('http://127.0.0.1:8888/processing', data)
-    console.log(response.status)
     }
 
     return(
