@@ -1,15 +1,18 @@
 version: '3.9'
 
 services:
+
   rabbitmq:
-    image: rabbitmq:latest
+    build: ./rabbitmq
     container_name: 'rabbitmq'
+    environment:
+     - RABBITMQ_DEFAULT_USER=rtelecom_user
+     - RABBITMQ_DEFAULT_PASS=rtelecom_password
     ports:
       - 5672:5672
       - 15672:15672
     volumes:
       - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
-      # - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
     depends_on:
       - db
 
@@ -19,10 +22,11 @@ services:
       dockerfile: ./servicedb/Dockerfile
     container_name: 'servicedb'
     command: python main.py
+    restart: always
     volumes:
       - ./servicedb:/servicedb
     environment:
-      - DATABASE_URL=postgresql://rtelecom_user:rtelecom_password@db:5432/citizen
+      - DATABASE_URL=postgresql://rtelecom_user:rtelecom_password@db/citizen
     depends_on:
       - db
       - rabbitmq
@@ -31,18 +35,20 @@ services:
     build:
       context: .
       dockerfile: ./backend/Dockerfile
-    container_name: tornado_app
+    container_name: backend
     command: python app.py
     volumes:
       - ./backend:/backend
-    expose:
-      - 8888
+    ports:
+      - 8888:8888
     depends_on:
       - servicedb
 
   db:
-    image: postgres:latest
+    image: postgres:15
     container_name: db
+    ports:
+      - 5431:5432
     volumes:
       - db:/var/lib/postgresql/data
     environment:
@@ -55,10 +61,5 @@ services:
     container_name: frontend
     ports:
       - 80:80
-    volumes:
-      - static:/home/web/default/frontend/dist
     depends_on:
       - backend
-volumes:
-  static:
-  db:

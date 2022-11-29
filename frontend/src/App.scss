@@ -1,0 +1,69 @@
+@import "~bootstrap/scss/bootstrap";
+
+.App {
+  padding: 15%;
+}
+.form {
+  background: #fff;
+  max-width: 100%;
+  width: 100%;
+  padding: 2%;
+  border-radius: 1rem;
+}
+
+@include media-breakpoint-up(xs) {
+  .App {
+    padding: 5% 0;
+    font-size: 0.9rem;
+  }
+  .form {
+    width: 100%;
+    padding: 2%;
+  }
+}
+
+@include media-breakpoint-up(sm) {
+  .App {
+    padding: 5% 0;
+  }
+  .form {
+    width: 100%;
+    padding: 2%;
+  }
+}
+@include media-breakpoint-up(md) {
+  .App {
+    padding: 5% 0;
+  }
+  .form {
+    width: 75%;
+    padding: 2%;
+  }
+}
+@include media-breakpoint-up(lg) {
+  .App {
+    padding: 4% 0;
+  }
+  .form {
+    width: 65%;
+    padding: 3%;
+  }
+}
+@include media-breakpoint-up(xl) {
+  .App {
+    padding: 2% 0;
+  }
+  .form {
+    width: 60%;
+    padding: 2%;
+  }
+}
+@include media-breakpoint-up(xxl) {
+  .App {
+    padding: 3% 0;
+  }
+  .form {
+    width: 50%;
+    padding: 2%;
+  }
+}
