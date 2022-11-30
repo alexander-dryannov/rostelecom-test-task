@@ -50,7 +50,7 @@ services:
     ports:
       - 5431:5432
     volumes:
-      - ./db/database:/var/lib/postgresql/data
+      - db:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER=rtelecom_user
       - POSTGRES_PASSWORD=rtelecom_password
@@ -63,3 +63,5 @@ services:
       - 80:80
     depends_on:
       - backend
+volumes:
+  db:
