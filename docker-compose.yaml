@@ -1,10 +1,10 @@
 version: '3.9'
 
 services:
-
   rabbitmq:
     build: ./rabbitmq
     container_name: 'rabbitmq'
+    restart: on-failure:5
     environment:
      - RABBITMQ_DEFAULT_USER=rtelecom_user
      - RABBITMQ_DEFAULT_PASS=rtelecom_password
@@ -15,14 +15,13 @@ services:
       - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
     depends_on:
       - db
-
   servicedb:
     build:
       context: .
       dockerfile: ./servicedb/Dockerfile
     container_name: 'servicedb'
     command: python main.py
-    restart: always
+    restart: on-failure:5
     volumes:
       - ./servicedb:/servicedb
     environment:
@@ -30,23 +29,23 @@ services:
     depends_on:
       - db
       - rabbitmq
-
   backend:
     build:
       context: .
       dockerfile: ./backend/Dockerfile
     container_name: backend
     command: python app.py
+    restart: on-failure:5
     volumes:
       - ./backend:/backend
     ports:
       - 8888:8888
     depends_on:
       - servicedb
-
   db:
     image: postgres:15
     container_name: db
+    restart: on-failure:5
     ports:
       - 5431:5432
     volumes:
@@ -55,8 +54,8 @@ services:
       - POSTGRES_USER=rtelecom_user
       - POSTGRES_PASSWORD=rtelecom_password
       - POSTGRES_DB=citizen
-
   frontend:
+    restart: on-failure:5
     build: ./frontend
     container_name: frontend
     ports:
